@@ -6,7 +6,7 @@ main =
   Browser.sandbox { init = init, update = update, view = view }
 
 
-type alias Model = init
+type alias Model = Int
 
 
 init : Model
