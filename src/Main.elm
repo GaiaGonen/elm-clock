@@ -56,11 +56,12 @@ viewInput : String -> String -> String -> (String -> msg ) -> Html msg
 viewInput t p v toMsg =
   input [ type_ t, placeholder p, value v, onInput toMsg ] []
 
-viewValidation : Model -> Html msg -> Html msg
+viewValidation : Model -> Html msg
 viewValidation model =
   if passMatchValid model && passLengthValid model then
     div [ style "color" "green" ] [ text "OK!" ]
-  else if passMatchValid
+  else if passMatchValid model then
+    div [ style "color" "red" ] [ text "Password must be 8 chars long!" ]
   else
     div [ style "color" "red" ] [ text "Passwords do not match!" ]
 
