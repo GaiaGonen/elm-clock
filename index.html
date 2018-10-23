@@ -4945,13 +4945,16 @@ var author$project$Main$viewInput = F4(
 				]),
 			_List_Nil);
 	});
+var author$project$Main$passMatchValid = function (model) {
+	return _Utils_eq(model.password, model.passwordAgain) ? true : false;
+};
 var elm$html$Html$div = _VirtualDom_node('div');
 var elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var elm$html$Html$text = elm$virtual_dom$VirtualDom$text;
 var elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
 var elm$html$Html$Attributes$style = elm$virtual_dom$VirtualDom$style;
 var author$project$Main$viewValidation = function (model) {
-	return _Utils_eq(model.password, model.passwordAgain) ? A2(
+	return author$project$Main$passMatchValid(model) ? A2(
 		elm$html$Html$div,
 		_List_fromArray(
 			[
@@ -4959,7 +4962,7 @@ var author$project$Main$viewValidation = function (model) {
 			]),
 		_List_fromArray(
 			[
-				elm$html$Html$text('OK')
+				elm$html$Html$text('Passwords Match')
 			])) : A2(
 		elm$html$Html$div,
 		_List_fromArray(

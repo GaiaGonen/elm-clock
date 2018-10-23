@@ -56,9 +56,24 @@ viewInput : String -> String -> String -> (String -> msg ) -> Html msg
 viewInput t p v toMsg =
   input [ type_ t, placeholder p, value v, onInput toMsg ] []
 
-viewValidation : Model -> Html msg
+viewValidation : Model -> Html msg -> Html msg
 viewValidation model =
-  if model.password == model.passwordAgain then
-    div [ style "color" "green" ] [ text "OK" ]
+  if passMatchValid model && passLengthValid model then
+    div [ style "color" "green" ] [ text "OK!" ]
+  else if passMatchValid
   else
     div [ style "color" "red" ] [ text "Passwords do not match!" ]
+
+passMatchValid : Model -> Bool
+passMatchValid model =
+  if model.password == model.passwordAgain then
+    True
+  else
+    False
+
+passLengthValid : Model -> Bool
+passLengthValid model =
+  if String.length model.password > 8 then
+    True
+  else
+    False
