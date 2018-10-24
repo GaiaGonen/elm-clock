@@ -15,11 +15,12 @@ type alias Model =
   { name : String
   , password : String
   , passwordAgain : String
+  , age : Int
   }
 
 init : Model
 init =
-  Model "" "" ""
+  Model "" "" "" 0
 
 
 -- UPDATE
@@ -28,6 +29,7 @@ type Msg
   = Name String
   | Password String
   | PasswordAgain String
+  | Age Int
 
 update : Msg -> Model -> Model
 update msg model =
@@ -41,6 +43,9 @@ update msg model =
     PasswordAgain password ->
       { model | passwordAgain = password }
 
+    Age age ->
+      { model | age = age }
+
 -- VIEW
 
 view : Model -> Html Msg
@@ -49,6 +54,7 @@ view model =
   [ viewInput "text" "Name" model.name Name
   , viewInput "password" "Password" model.password Password
   , viewInput "password" "Re-enter Password" model.passwordAgain PasswordAgain
+  , viewInput "age" "Age" (String.fromInt model.age) (String.fromInt Age)
   , viewValidation model
   ]
 

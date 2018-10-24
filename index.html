@@ -4304,11 +4304,11 @@ function _Browser_load(url)
 		}
 	}));
 }
-var author$project$Main$Model = F3(
-	function (name, password, passwordAgain) {
-		return {name: name, password: password, passwordAgain: passwordAgain};
+var author$project$Main$Model = F4(
+	function (name, password, passwordAgain, age) {
+		return {age: age, name: name, password: password, passwordAgain: passwordAgain};
 	});
-var author$project$Main$init = A3(author$project$Main$Model, '', '', '');
+var author$project$Main$init = A4(author$project$Main$Model, '', '', '', 0);
 var author$project$Main$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
@@ -4322,11 +4322,16 @@ var author$project$Main$update = F2(
 				return _Utils_update(
 					model,
 					{password: password});
-			default:
+			case 'PasswordAgain':
 				var password = msg.a;
 				return _Utils_update(
 					model,
 					{passwordAgain: password});
+			default:
+				var age = msg.a;
+				return _Utils_update(
+					model,
+					{age: age});
 		}
 	});
 var author$project$Main$Name = function (a) {
