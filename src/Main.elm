@@ -82,16 +82,23 @@ subscriptions model =
 
 view : Model -> Html Msg
 view model =
-  div []
-  [ svg [ viewBox "0 0 50 50", Svg.Attributes.width "50", Svg.Attributes.height "50" ] [
-    rect [ x "0", y "0", Svg.Attributes.width "50", Svg.Attributes.height "50", fill "white", stroke "black", strokeWidth "5", rx "5", ry "5" ] []
-    , drawCube model
-    ]
+  div [] [
+  drawCube model
+  , drawCube model
   , button [ onClick Roll ] [ Html.text "Roll" ]
   ]
 
 drawCube : Model -> Html Msg
 drawCube model =
+    svg [ Svg.Attributes.width "50", Svg.Attributes.height "50" ] [
+      g [] [ rect [ x "0", y "0", Svg.Attributes.width "50", Svg.Attributes.height "50", fill "white", stroke "black", strokeWidth "5", rx "5", ry "5" ] []
+      , drawDots model
+      ]
+    ]
+
+
+drawDots : Model -> Html Msg
+drawDots model =
   case model.dieFace of
     1 ->
       drawDot "25" "25"
