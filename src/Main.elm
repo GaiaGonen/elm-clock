@@ -79,10 +79,15 @@ view model =
     minute = String.fromInt (Time.toMinute model.zone model.time)
     second = String.fromInt (Time.toSecond model.zone model.time)
   in
-    div [] [
-    h1 [] [ text (hour ++ ":" ++ minute ++ ":" ++ second) ]
-    , if model.subTime then
-      button [ onClick Pause] [ Html.text "pause" ]
-    else
-      button [ onClick Resume] [ Html.text "resume" ]
+    div [][
+      Html.node "link" [ Html.Attributes.rel "stylesheet", Html.Attributes.href "styles.css" ] []
+      , div [] [
+      div [ class "clock" ] [
+        h1 [] [ text (hour ++ ":" ++ minute ++ ":" ++ second) ]
+      ]
+      , if model.subTime then
+        button [ onClick Pause] [ Html.text "pause" ]
+      else
+        button [ onClick Resume] [ Html.text "resume" ]
+      ]
     ]
