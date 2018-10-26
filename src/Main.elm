@@ -3,6 +3,8 @@ import Html exposing (..)
 import Html.Events exposing (..)
 import Html.Attributes exposing (..)
 import Task
+import Svg exposing (..)
+import Svg.Attributes exposing (..)
 import Time
 
 
@@ -75,19 +77,40 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
   let
-    hour = String.fromInt (Time.toHour model.zone model.time)
-    minute = String.fromInt (Time.toMinute model.zone model.time)
-    second = String.fromInt (Time.toSecond model.zone model.time)
+    hour = Time.toHour model.zone model.time
+    minute = Time.toMinute model.zone model.time
+    second = Time.toSecond model.zone model.time
   in
-    div [][
+    div [] [
       Html.node "link" [ Html.Attributes.rel "stylesheet", Html.Attributes.href "styles.css" ] []
-      , div [] [
-      div [ class "clock" ] [
-        h1 [] [ text (hour ++ ":" ++ minute ++ ":" ++ second) ]
-      ]
-      , if model.subTime then
-        button [ onClick Pause] [ Html.text "pause" ]
-      else
-        button [ onClick Resume] [ Html.text "resume" ]
+      , svg [ Svg.Attributes.width "250", Svg.Attributes.height "250" ] [
+      circle [cx "100", cy "100", r "100", stroke "black", fill "none"] []
+      , g [] <| List.map drawNumber <| List.range 1 12
+      , line [x1 "100", y1 "100", x2 "200", y2 "200", stroke "black", strokeWidth "3px"] []
       ]
     ]
+
+type alias Point =
+  { x : Int
+  , y : Int
+  }
+
+drawNumber : Int -> Svg Msg
+drawNumber hour =
+  let
+    point = findPointOnCircle 12 hour
+  in
+    Svg.text_ [ alignmentBaseline "middle", textAnchor "middle"
+              , x <| String.fromInt point.x
+              , y <| String.fromInt point.y
+              ]
+              [ Svg.text <| String.fromInt hour ]
+
+findPointOnCircle : Int -> Int -> Point
+findPointOnCircle slices slice =
+  let
+    center = Point 100 100
+    r = 90
+    deg = -(toFloat slice * (degrees <| 360/toFloat slices))
+  in
+    { x = floor (100 + r * -(sin deg)), y = floor (100 + r * -(cos deg)) }
