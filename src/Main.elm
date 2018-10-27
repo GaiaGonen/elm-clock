@@ -103,6 +103,8 @@ drawHands second minute hour =
     secondsHandEnd = findPointOnCircle 60 second -15 center
     minutesHand = findPointOnCircle (60*60) (minute*60+second) 70 center
     hoursHand = findPointOnCircle (12*60) (hour*60+minute) 60 center
+    hoursHandMiddleLeft = findPointOnCircle (12*60) (hour*60+minute-20) 15 center
+    hoursHandMiddleRight = findPointOnCircle (12*60) (hour*60+minute+20) 15 center
   in
   g [] [
   line [x1 <| String.fromInt secondsHandEnd.x
@@ -115,11 +117,8 @@ drawHands second minute hour =
        , x2 <| String.fromInt minutesHand.x
        , y2 <| String.fromInt minutesHand.y
        , stroke "black", strokeWidth "2px"] []
-  , line [x1 <| String.fromInt center.x
-       , y1 <| String.fromInt center.y
-       , x2 <| String.fromInt hoursHand.x
-       , y2 <| String.fromInt hoursHand.y
-       , stroke "black", strokeWidth "3px"] []
+  , polygon [points <| (String.fromInt center.x)++","++(String.fromInt center.y)++" "++(String.fromInt hoursHandMiddleLeft.x)++","++(String.fromInt hoursHandMiddleLeft.y)++" "++(String.fromInt hoursHand.x)++","++(String.fromInt hoursHand.y)++" "++(String.fromInt hoursHandMiddleRight.x)++","++(String.fromInt hoursHandMiddleRight.y)
+       , stroke "black", strokeWidth "1px"] []
   ]
 
 drawNumber : Int -> Svg Msg
