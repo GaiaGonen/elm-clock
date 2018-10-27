@@ -100,22 +100,25 @@ drawHands second minute hour =
   let
     center = Point 150 150
     secondsHand = findPointOnCircle 60 second 95 center
+    secondsHandEnd = findPointOnCircle 60 second -15 center
     minutesHand = findPointOnCircle (60*60) (minute*60+second) 70 center
     hoursHand = findPointOnCircle (12*60) (hour*60+minute) 60 center
   in
   g [] [
-  line [x1 <| String.fromInt center.x
-       , y1 <| String.fromInt center.y
+  line [x1 <| String.fromInt secondsHandEnd.x
+       , y1 <| String.fromInt secondsHandEnd.y
        , x2 <| String.fromInt secondsHand.x
        , y2 <| String.fromInt secondsHand.y
-       , stroke "black", strokeWidth "1px"] []
+       , stroke "black", strokeWidth "1px", stroke "red"] []
   , line [ x1 <| String.fromInt center.x
        , y1 <| String.fromInt center.y
-       , x2 <| String.fromInt minutesHand.x, y2 <| String.fromInt minutesHand.y
+       , x2 <| String.fromInt minutesHand.x
+       , y2 <| String.fromInt minutesHand.y
        , stroke "black", strokeWidth "2px"] []
   , line [x1 <| String.fromInt center.x
        , y1 <| String.fromInt center.y
-       , x2 <| String.fromInt hoursHand.x, y2 <| String.fromInt hoursHand.y
+       , x2 <| String.fromInt hoursHand.x
+       , y2 <| String.fromInt hoursHand.y
        , stroke "black", strokeWidth "3px"] []
   ]
 
