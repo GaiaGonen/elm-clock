@@ -84,9 +84,9 @@ view model =
     div [] [
       Html.node "link" [ Html.Attributes.rel "stylesheet", Html.Attributes.href "styles.css" ] []
       , svg [ Svg.Attributes.width "250", Svg.Attributes.height "250" ] [
-      circle [cx "100", cy "100", r "100", stroke "black", fill "none"] []
+      circle [cx "100", cy "100", r "100", stroke "black", strokeWidth "5px", fill "none"] []
       , g [] <| List.map drawNumber <| List.range 1 12
-      , line [x1 "100", y1 "100", x2 "200", y2 "200", stroke "black", strokeWidth "3px"] []
+      , drawHands second minute hour
       ]
     ]
 
@@ -95,6 +95,21 @@ type alias Point =
   , y : Int
   }
 
+drawHands : Int -> Int -> Int -> Svg Msg
+drawHands second minute hour =
+  let
+    secondsHand = findPointOnCircle 60 second
+    minutesHand = findPointOnCircle (60*60) (minute*60+second)
+    hoursHand = findPointOnCircle (12*60) (hour*60+minute)
+  in
+  g [] [
+  line [x1 "100", y1 "100", x2 <| String.fromInt secondsHand.x, y2 <| String.fromInt secondsHand.y
+       , stroke "black", strokeWidth "3px"] []
+  , line [x1 "100", y1 "100", x2 <| String.fromInt minutesHand.x, y2 <| String.fromInt minutesHand.y
+       , stroke "black", strokeWidth "3px"] []
+  , line [x1 "100", y1 "100", x2 <| String.fromInt hoursHand.x, y2 <| String.fromInt hoursHand.y
+       , stroke "black", strokeWidth "3px"] []
+  ]
 drawNumber : Int -> Svg Msg
 drawNumber hour =
   let
