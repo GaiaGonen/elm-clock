@@ -83,8 +83,8 @@ view model =
   in
     div [] [
       Html.node "link" [ Html.Attributes.rel "stylesheet", Html.Attributes.href "styles.css" ] []
-      , svg [ Svg.Attributes.width "250", Svg.Attributes.height "250" ] [
-      circle [cx "100", cy "100", r "100", stroke "black", strokeWidth "5px", fill "none"] []
+      , svg [ Svg.Attributes.width "300", Svg.Attributes.height "300" ] [
+      circle [cx "150", cy "150", r "100", stroke "black", strokeWidth "5px", fill "none"] []
       , g [] <| List.map drawNumber <| List.range 1 12
       , drawHands second minute hour
       ]
@@ -98,23 +98,31 @@ type alias Point =
 drawHands : Int -> Int -> Int -> Svg Msg
 drawHands second minute hour =
   let
-    secondsHand = findPointOnCircle 60 second 95
-    minutesHand = findPointOnCircle (60*60) (minute*60+second) 70
-    hoursHand = findPointOnCircle (12*60) (hour*60+minute) 60
+    center = Point 150 150
+    secondsHand = findPointOnCircle 60 second 95 center
+    minutesHand = findPointOnCircle (60*60) (minute*60+second) 70 center
+    hoursHand = findPointOnCircle (12*60) (hour*60+minute) 60 center
   in
   g [] [
-  line [x1 "100", y1 "100", x2 <| String.fromInt secondsHand.x, y2 <| String.fromInt secondsHand.y
+  line [x1 <| String.fromInt center.x
+       , y1 <| String.fromInt center.y
+       , x2 <| String.fromInt secondsHand.x
+       , y2 <| String.fromInt secondsHand.y
        , stroke "black", strokeWidth "1px"] []
-  , line [x1 "100", y1 "100", x2 <| String.fromInt minutesHand.x, y2 <| String.fromInt minutesHand.y
+  , line [ x1 <| String.fromInt center.x
+       , y1 <| String.fromInt center.y
+       , x2 <| String.fromInt minutesHand.x, y2 <| String.fromInt minutesHand.y
        , stroke "black", strokeWidth "2px"] []
-  , line [x1 "100", y1 "100", x2 <| String.fromInt hoursHand.x, y2 <| String.fromInt hoursHand.y
+  , line [x1 <| String.fromInt center.x
+       , y1 <| String.fromInt center.y
+       , x2 <| String.fromInt hoursHand.x, y2 <| String.fromInt hoursHand.y
        , stroke "black", strokeWidth "3px"] []
   ]
 
 drawNumber : Int -> Svg Msg
 drawNumber hour =
   let
-    point = findPointOnCircle 12 hour 90
+    point = findPointOnCircle 12 hour 85 <| Point 150 150
   in
     Svg.text_ [ alignmentBaseline "middle", textAnchor "middle"
               , x <| String.fromInt point.x
@@ -122,11 +130,10 @@ drawNumber hour =
               ]
               [ Svg.text <| String.fromInt hour ]
 
-findPointOnCircle : Int -> Int -> Int -> Point
-findPointOnCircle slices slice radius =
+findPointOnCircle : Int -> Int -> Int -> Point -> Point
+findPointOnCircle slices slice radius center =
   let
-    center = Point 100 100
     r = toFloat radius
     deg = -(toFloat slice * (degrees <| 360/toFloat slices))
   in
-    { x = floor (100 + r * -(sin deg)), y = floor (100 + r * -(cos deg)) }
+    { x = floor (toFloat center.x + r * -(sin deg)), y = floor ( toFloat center.y + r * -(cos deg)) }
