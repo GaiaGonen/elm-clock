@@ -98,22 +98,23 @@ type alias Point =
 drawHands : Int -> Int -> Int -> Svg Msg
 drawHands second minute hour =
   let
-    secondsHand = findPointOnCircle 60 second
-    minutesHand = findPointOnCircle (60*60) (minute*60+second)
-    hoursHand = findPointOnCircle (12*60) (hour*60+minute)
+    secondsHand = findPointOnCircle 60 second 95
+    minutesHand = findPointOnCircle (60*60) (minute*60+second) 70
+    hoursHand = findPointOnCircle (12*60) (hour*60+minute) 60
   in
   g [] [
   line [x1 "100", y1 "100", x2 <| String.fromInt secondsHand.x, y2 <| String.fromInt secondsHand.y
-       , stroke "black", strokeWidth "3px"] []
+       , stroke "black", strokeWidth "1px"] []
   , line [x1 "100", y1 "100", x2 <| String.fromInt minutesHand.x, y2 <| String.fromInt minutesHand.y
-       , stroke "black", strokeWidth "3px"] []
+       , stroke "black", strokeWidth "2px"] []
   , line [x1 "100", y1 "100", x2 <| String.fromInt hoursHand.x, y2 <| String.fromInt hoursHand.y
        , stroke "black", strokeWidth "3px"] []
   ]
+
 drawNumber : Int -> Svg Msg
 drawNumber hour =
   let
-    point = findPointOnCircle 12 hour
+    point = findPointOnCircle 12 hour 90
   in
     Svg.text_ [ alignmentBaseline "middle", textAnchor "middle"
               , x <| String.fromInt point.x
@@ -121,11 +122,11 @@ drawNumber hour =
               ]
               [ Svg.text <| String.fromInt hour ]
 
-findPointOnCircle : Int -> Int -> Point
-findPointOnCircle slices slice =
+findPointOnCircle : Int -> Int -> Int -> Point
+findPointOnCircle slices slice radius =
   let
     center = Point 100 100
-    r = 90
+    r = toFloat radius
     deg = -(toFloat slice * (degrees <| 360/toFloat slices))
   in
     { x = floor (100 + r * -(sin deg)), y = floor (100 + r * -(cos deg)) }
