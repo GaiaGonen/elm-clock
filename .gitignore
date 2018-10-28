@@ -1,0 +1,5 @@
+# elm-package generated files
+elm-stuff
+
+# ignore index.html anywhere but in gh-pages branch
+index.html
