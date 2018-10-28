@@ -84,7 +84,8 @@ view model =
     div [] [
       Html.node "link" [ Html.Attributes.rel "stylesheet", Html.Attributes.href "styles.css" ] []
       , svg [ Svg.Attributes.width "300", Svg.Attributes.height "300" ] [
-      circle [cx "150", cy "150", r "100", stroke "rgb(85, 55, 6)", strokeWidth "3px", fill "rgb(253, 227, 183)"] []
+      circle [cx "150", cy "150", r "100", stroke "rgb(85, 55, 6)"
+             , strokeWidth "3px", fill "rgb(253, 227, 183)"] []
       , circle [cx "150", cy "150", r "5", fill "rgb(85, 55, 6)"] []
       , g [] <| List.map drawNumber <| List.range 1 12
       , drawHands second minute hour
@@ -115,9 +116,21 @@ drawHands second minute hour =
        , x2 <| String.fromInt secondsHand.x
        , y2 <| String.fromInt secondsHand.y
        , stroke "black", strokeWidth "1px", stroke "red"] []
-  , polygon [points <| (String.fromInt center.x)++","++(String.fromInt center.y)++" "++(String.fromInt minutesHandMiddleLeft.x)++","++(String.fromInt minutesHandMiddleLeft.y)++" "++(String.fromInt minutesHand.x)++","++(String.fromInt minutesHand.y)++" "++(String.fromInt minutesHandMiddleRight.x)++","++(String.fromInt minutesHandMiddleRight.y)
+  , polygon [points <| (String.fromInt center.x)++","++(String.fromInt center.y)
+                       ++" "++(String.fromInt minutesHandMiddleLeft.x)
+                       ++","++(String.fromInt minutesHandMiddleLeft.y)
+                       ++" "++(String.fromInt minutesHand.x)
+                       ++","++(String.fromInt minutesHand.y)
+                       ++" "++(String.fromInt minutesHandMiddleRight.x)
+                       ++","++(String.fromInt minutesHandMiddleRight.y)
        , stroke "black", strokeWidth "1px"] []
-  , polygon [points <| (String.fromInt center.x)++","++(String.fromInt center.y)++" "++(String.fromInt hoursHandMiddleLeft.x)++","++(String.fromInt hoursHandMiddleLeft.y)++" "++(String.fromInt hoursHand.x)++","++(String.fromInt hoursHand.y)++" "++(String.fromInt hoursHandMiddleRight.x)++","++(String.fromInt hoursHandMiddleRight.y)
+  , polygon [points <| (String.fromInt center.x)++","++(String.fromInt center.y)
+                       ++" "++(String.fromInt hoursHandMiddleLeft.x)
+                       ++","++(String.fromInt hoursHandMiddleLeft.y)
+                       ++" "++(String.fromInt hoursHand.x)
+                       ++","++(String.fromInt hoursHand.y)
+                       ++" "++(String.fromInt hoursHandMiddleRight.x)
+                       ++","++(String.fromInt hoursHandMiddleRight.y)
        , stroke "black", strokeWidth "1px"] []
   ]
 
