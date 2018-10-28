@@ -15,3 +15,5 @@ elm/browser
 
 
 Started from the elm official guide, Time section 
+
+Live clock - https://gaiagonen.github.io/elm-clock/
